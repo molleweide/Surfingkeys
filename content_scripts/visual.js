@@ -262,7 +262,7 @@ function createVisual() {
         annotation: "make cursor at top of window.",
         feature_group: 9,
         code: function() {
-            var offset = cursor.getBoundingClientRect().top;
+            var offset = cursor.getBoundingClientRect().top - ( window.innerHeight/10 );
             self.hideCursor();
             document.scrollingElement.scrollTop += offset;
             self.showCursor();
@@ -282,7 +282,7 @@ function createVisual() {
         annotation: "make cursor at bottom of window.",
         feature_group: 9,
         code: function() {
-            var offset = cursor.getBoundingClientRect().top - window.innerHeight;
+            var offset = cursor.getBoundingClientRect().top - ( window.innerHeight/10 * 9 );
             self.hideCursor();
             document.scrollingElement.scrollTop += offset;
             self.showCursor();
