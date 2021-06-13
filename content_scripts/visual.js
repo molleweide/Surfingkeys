@@ -257,16 +257,17 @@ function createVisual() {
             clickLink(selection.focusNode.parentNode, true);
         }
     });
-    // self.mappings.add("zt", {
-    //     annotation: "make cursor at center of window.",
-    //     feature_group: 9,
-    //     code: function() {
-    //         var offset = cursor.getBoundingClientRect().top - window.innerHeight/2;
-    //         self.hideCursor();
-    //         document.scrollingElement.scrollTop += offset;
-    //         self.showCursor();
-    //     }
-    // });
+    //////////////////////////////////////////////////////
+    self.mappings.add("zt", {
+        annotation: "make cursor at top of window.",
+        feature_group: 9,
+        code: function() {
+            var offset = cursor.getBoundingClientRect().top;
+            self.hideCursor();
+            document.scrollingElement.scrollTop += offset;
+            self.showCursor();
+        }
+    });
     self.mappings.add("zz", {
         annotation: "make cursor at center of window.",
         feature_group: 9,
@@ -277,16 +278,17 @@ function createVisual() {
             self.showCursor();
         }
     });
-    // self.mappings.add("zb", {
-    //     annotation: "make cursor at center of window.",
-    //     feature_group: 9,
-    //     code: function() {
-    //         var offset = cursor.getBoundingClientRect().top - window.innerHeight/2;
-    //         self.hideCursor();
-    //         document.scrollingElement.scrollTop += offset;
-    //         self.showCursor();
-    //     }
-    // });
+    self.mappings.add("zb", {
+        annotation: "make cursor at bottom of window.",
+        feature_group: 9,
+        code: function() {
+            var offset = cursor.getBoundingClientRect().top - window.innerHeight;
+            self.hideCursor();
+            document.scrollingElement.scrollTop += offset;
+            self.showCursor();
+        }
+    });
+    //////////////////////////////////////////////////////
     self.mappings.add("f", {
         annotation: "Forward to next char.",
         feature_group: 9,
