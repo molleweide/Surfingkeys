@@ -258,6 +258,8 @@ function createVisual() {
         }
     });
     //////////////////////////////////////////////////////
+    // zoom
+    //
     self.mappings.add("zt", {
         annotation: "make cursor at top of window.",
         feature_group: 9,
