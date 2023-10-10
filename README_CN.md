@@ -45,7 +45,6 @@ Surfingkeys尽量让用户使用键盘进行网页浏览，但有些限制是Goo
 * [点命令重复前一个操作](#点命令重复前一个操作)
 * [Markdown预览](#markdown预览)
 * [截屏](#截屏)
-* [mermaid图形生成器](#mermaid图形生成器)
 * [PDF阅读器](#pdf阅读器)
 * [配置参考](#配置参考)
 * [编译](#编译)
@@ -350,13 +349,13 @@ search_leader_key(`s`)加上大写的别名(`G`)会打开搜索框让你可以�
 
 当Surfingkeys在某个网站被`Alt-s`关掉时，这个状态会被保存在设置里，如
 
-    "blacklist": {
+    "blocklist": {
         "https://github.com": 1
     },
 
-再按一次`Alt-s`会从settings.blacklist中删除该站点。这类状态并不保存在设置脚本里，你可以按`yj`把当前所有设置复制到系统剪贴板，然后粘贴到文本编辑器里查看。
+再按一次`Alt-s`会从settings.blocklist中删除该站点。这类状态并不保存在设置脚本里，你可以按`yj`把当前所有设置复制到系统剪贴板，然后粘贴到文本编辑器里查看。
 
-另一个禁用Surfingkeys的方法是用`settings.blacklistPattern`，请参考[regex for disabling](https://github.com/brookhong/Surfingkeys/issues/63).
+另一个禁用Surfingkeys的方法是用`settings.blocklistPattern`，请参考[regex for disabling](https://github.com/brookhong/Surfingkeys/issues/63).
 
 ## 代理设置
 
@@ -490,12 +489,6 @@ Surfingkeys默认使用[这个markdown分析器](https://github.com/chjj/marked)
 * `yS` 截当前滚动对象的屏。
 
 按完以上任一快捷键之后，会弹出你所截取的图片，然后你可以用鼠标（😢）右键单击图片来保存或者复制。
-
-## mermaid图形生成器
-
-[Mermaid](https://github.com/knsv/mermaid) 是一个从文本生成各类图形如类图／时序图的工具。Surfingkeys提供了一个页面，可以从系统剪贴板里读取文本并生成图形，并可以用vim编辑器编辑。
-
-按`Ctrl-Alt-d`打开。
 
 ## PDF阅读器
 为了支持PDF文件，Surfingkeys集成了来自[pdf.js](https://github.com/mozilla/pdf.js)的PDF阅读器。当你用Chrome打开一个PDF文件时，这个PDF阅读器就会打开，这样所有Surfingkeys的按键都可以用了。
@@ -653,7 +646,7 @@ Surfingkeys默认使用[这个markdown分析器](https://github.com/chjj/marked)
 | settings.prevLinkRegex | /((<<&#124;prev(ious)?)+)/i| 匹配上一页链接的正则表达式。 |
 | settings.hintAlign | "center" | 拨号键与它对应的目标如何对齐。["left", "center", "right"] |
 | settings.defaultSearchEngine | "g" | 搜索栏里的默认搜索引擎。 |
-| settings.blacklistPattern | undefined | 如果当前访问的网站匹配设定的正则表达式，则禁用Surfingkeys。 |
+| settings.blocklistPattern | undefined | 如果当前访问的网站匹配设定的正则表达式，则禁用Surfingkeys。 |
 | settings.focusAfterClosed | "right" | 关掉当前标签页后，切换到哪一侧的标签页。["left", "right"] |
 | settings.repeatThreshold | 99 | 操作可重复最多次数。 |
 | settings.tabsMRUOrder | true | 查找打开标签页时，是否按最近访问顺序列出所有标签页。 |

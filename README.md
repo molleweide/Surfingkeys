@@ -2,7 +2,7 @@
 
 [![Node CI](https://github.com/brookhong/Surfingkeys/workflows/Node%20CI/badge.svg?branch=master)](https://github.com/brookhong/Surfingkeys/actions?query=workflow%3A%22Node+CI%22+branch%3Amaster)
 
-Surfingkeys is another Chrome/Firefox extension that provides keyboard-based navigation and control of the web in the spirit of the VIM editor. But it's not for VIM users only, it's for anyone who just needs some more shortcuts to his own functions.
+Surfingkeys is another web browser(including Google Chrome, Chromium based browsers, Firefox, Safari) extension that provides keyboard-based navigation and control of the web in the spirit of the VIM editor. But it's not for VIM users only, it's for anyone who just needs some more shortcuts to his own functions.
 
 Surfingkeys is created with all settings described in Javascript, so it's easy for anyone to map any keystrokes to his own defined Javascript function. For example,
 
@@ -10,19 +10,39 @@ Surfingkeys is created with all settings described in Javascript, so it's easy f
         Front.showPopup('a well-known phrase uttered by characters in the 1996 film Jerry Maguire (Escape to close).');
     });
 
-Surfingkeys works for Firefox(above 57) since 0.9.15, with below features as exceptions:
-
-* Sync settings across devices for same account
-* Proxy settings
-* Markdown preview
-
 Surfingkeys is doing its best to make full use of keyboard for web browsing, but there are some limitations from Google Chrome itself, please see [Brook Build of Chromium](https://brookhong.github.io/2021/04/18/brook-build-of-chromium.html) for a more thorough experience.
 
 ## Installation
 
-* [Surfingkeys - Chrome Web Store](https://chrome.google.com/webstore/detail/surfingkeys/gfbliohnnapiefjpjlpjnehglfpaknnc)
-* [Surfingkeys – Get this Extension for 🦊 Firefox](https://addons.mozilla.org/en-US/firefox/addon/surfingkeys_ff/)
-* [Surfingkeys - Microsoft Edge Addons](https://microsoftedge.microsoft.com/addons/detail/kgnghhfkloifoabeaobjkgagcecbnppg)
+<img src="https://raw.githubusercontent.com/brookhong/Surfingkeys/master/sk.svg" width="384">
+
+* [Surfingkeys - Chrome Web Store](https://chrome.google.com/webstore/detail/surfingkeys/gfbliohnnapiefjpjlpjnehglfpaknnc) for Google Chrome, Chromium based browsers
+* [Surfingkeys – Get this Extension for 🦊 Firefox](https://addons.mozilla.org/en-US/firefox/addon/surfingkeys_ff/) for Firefox
+* [Surfingkeys - Microsoft Edge Addons](https://microsoftedge.microsoft.com/addons/detail/kgnghhfkloifoabeaobjkgagcecbnppg) for Microsoft Edge
+* [Surfingkeys on the Mac App Store](https://apps.apple.com/us/app/surfingkeys/id1599827286) for Safari
+
+### Feature availability
+| Features \ Browsers | Chromium family (above 45) | Firefox (above 57) | Safari (above 15) |
+|:---------------|:-----|:-----|:-----|
+| Follow links | Y | Y | Y |
+| Surfingkeys modes | Y | Y | Y |
+| Omnibar | Y | Y | partly |
+| Search selected with | Y | Y | partly
+| Vim-like marks | Y | Y | Y |
+| Switch tabs | Y | Y | Y |
+| Windows management | Y | Y | N |
+| Commands | Y | Y | Y |
+| Smooth scroll | Y | Y | Y |
+| Session management | Y | Y | Y |
+| Repeats action by pressing number before mapkey | Y | Y | Y |
+| Hotkey to toggle Surfingkeys | Y | Y | Y |
+| VIM editor and Emacs editor | Y | Y | Y |
+| Dot to repeat previous action | Y | Y | Y |
+| Capture page | Y | Y | Y |
+| PDF viewer | Y | N | N |
+| Sync across devices | Y | N | Y |
+| Proxy | Y | N | N |
+| Markdown preview |Y  | Y | N |
 
 ### TABLE OF CONTENTS
 
@@ -45,7 +65,6 @@ Surfingkeys is doing its best to make full use of keyboard for web browsing, but
 * [Dot to repeat previous action](#dot-to-repeat-previous-action)
 * [Markdown preview](#markdown-preview)
 * [Capture page](#capture-page)
-* [Mermaid diagram generator](#mermaid-diagram-generator)
 * [PDF viewer](#pdf-viewer)
 * [Edit your own settings](#edit-your-own-settings)
 * [License](#license)
@@ -92,7 +111,7 @@ Try some mappings described in the usage popover. For example, press `e` to scro
 
 Default hint characters for links are `asdfgqwertzxcvb`, it quits when a non-hint key is pressed. Add below line to your settings to make it right hand:
 
-    Hints.characters = 'yuiophjklnm'; // for right hand
+    Hints.setCharacters('yuiophjklnm'); // for right hand
 
 When hints are overlapped, press `Shift` to flip them. Hold `space` to hold hints temporarily, release `space` to restore hints.
 
@@ -180,11 +199,7 @@ Press `Ctrl-Enter` to find exactly the whole word input, like with the input `\b
 
 To press `Alt-i` to enter PassThrough mode gives you a chance to temporarily suppress SurfingKeys, which means Surfingkeys will not care any key press until leaving this mode by pressing `Esc`. In this mode, you could use built-in shortcuts from any site itself. Please see [Feature Request: implement Vimium-style insert mode · Issue #656](https://github.com/brookhong/Surfingkeys/issues/656) for why we brought this in and the difference between `Alt-i` and `Alt-s`.
 
-To press `p` to enter ephemeral PassThrough mode, which will automatically quit after 1 second. If the default timeout does fit your case, add below into your own settings script to make it 1500ms.
-
-    mapkey('p', '#0enter ephemeral PassThrough mode to temporarily suppress SurfingKeys', function() {
-        Normal.passThrough(1500);
-    });
+To press `p` to enter ephemeral PassThrough mode, which will automatically quit after 1 second.
 
 ## Omnibar
 
@@ -348,13 +363,13 @@ By default, `Alt-s` will toggle Surfingkeys for current site. When Surfingkeys i
 
 When Surfingkeys is turned off on some site by `Alt-s`, the status will be persisted in settings, for example,
 
-    "blacklist": {
+    "blocklist": {
         "https://github.com": 1
     },
 
-`Alt-s` once more will remove it from settings.blacklist. The data settings are not always presented in snippets, you could use `yj` to dump all settings into clipboard, then paste it in your text editor to check out.
+`Alt-s` once more will remove it from settings.blocklist. The data settings are not always presented in snippets, you could use `yj` to dump all settings into clipboard, then paste it in your text editor to check out.
 
-Another way to disable Surfingkeys is to use `settings.blacklistPattern`, please refer to [regex for disabling](https://github.com/brookhong/Surfingkeys/issues/63).
+Another way to disable Surfingkeys is to use `settings.blocklistPattern`, please refer to [regex for disabling](https://github.com/brookhong/Surfingkeys/issues/63).
 
 ## Proxy settings
 
@@ -458,11 +473,11 @@ Remember that in insert mode, press `Ctrl-i` to open the vim editor.
 
 All keystrokes in normal mode are repeatable by dot, except those keystrokes mapped with `repeatIgnore` as `true`, for example,
 
-    mapkey('e', '#2Scroll a page up', function() {
-        Normal.scroll("pageUp");
+    mapkey('se', '#2My magic se', function() {
+        // your code here
     }, {repeatIgnore: true});
 
-Then `.` will not repeat action to page up, even `e` is just pressed.
+Then `.` will not repeat your magic action with `se`, even it is just pressed.
 
 ## Markdown preview
 
@@ -488,13 +503,6 @@ There are some circumstances that you want to take a screenshot on a page, below
 
 After one of above shortcuts pressed, you could see a popup of captured image, on which you could then right click with a MOUSE( 😢 ) to save as or copy into system clipboard.
 
-## Mermaid diagram generator
-
-[Mermaid](https://github.com/knsv/mermaid) is a great tool to generate diagrams and flowcharts from text in a similar manner as markdown.
-Surfingkeys provides a simple frontend to generate diagrams from text in clipboard, and a vim editor to edit it.
-
-`Ctrl-Alt-d` to open it.
-
 ## PDF viewer
 To make Surfingkeys work for PDF files, Surfingkeys integrates PDF viewer from the notable [pdf.js](https://github.com/mozilla/pdf.js). When a pdf file is opened in Chrome, the PDF viewer will be launched, and you could use everything from Surfingkeys then.
 
@@ -504,159 +512,17 @@ Some functionalities are also available when you're using original pdf viewer, b
 
 ## Edit your own settings
 
-### Map a keystroke to some action
-
-    mapkey(keystroke, help_string, action_code, [options])
-
-| parameter  | explanation |
-|:---------------| :-----|
-|**keystroke**                   | string, any keystroke to trigger the action|
-|**help_string**                 | string, a help message to describe the action, which will displayed in help opened by `u`.|
-|**action_code**                 | function, a Javascript function to be bound. If the function needs an argument, next pressed key will be fed to the function.|
-|**options**                     | object, properties listed below|
-|**domain**                      | regex[optional], a Javascript regex pattern to identify the domains that this mapping works, for example, `/github\.com/i` says that this mapping works only for github.com.|
-|**repeatIgnore**                | boolean[optional], whether this keystroke will be repeat by dot command.|
-
-Just an example to map one keystroke to different functions on different sites,
-
-    mapkey('zz', 'Choose a tab', function() {
-        Front.chooseTab();
-    }, {domain: /github\.com/i});
-    mapkey('zz', 'Show usage', function() {
-        Front.showUsage();
-    }, {domain: /google\.com/i});
-
-mapkey in visual mode and omnibar bar.
-
-    vmapkey(keystroke, help_string, action_code, [options])
-
-### map a keystroke to another
-
-    map(new_keystroke, old_keystroke, [domain_pattern], [new_annotation])
-
-    imap(new_keystroke, old_keystroke, [domain_pattern], [new_annotation])
-
-    vmap(new_keystroke, old_keystroke, [domain_pattern], [new_annotation])
-
-    cmap(new_keystroke, old_keystroke, [domain_pattern], [new_annotation])
-
-| parameter  | explanation |
-|:---------------| :-----|
-|**new_keystroke**               | string, the new keystroke that will be used.|
-|**old_keystroke**               | string, the existing keystroke that will be replaced, which means pressing it will not trigger any action.|
-|**domain_pattern**              | regex[optional], a Javascript regex pattern to identify the domains that this mapping works.|
-|**new_annotation**              | string[optional], use it instead of the annotation from old_keystroke if provided.|
-
-### remove a keystroke mapping
-
-Normal mode,
-
-    unmap(keystroke, [domain_pattern])
-
-Insert mode,
-
-    iunmap(keystroke, [domain_pattern])
-
-Visual mode,
-
-    vunmap(keystroke, [domain_pattern])
-
-| parameter  | explanation |
-|:---------------| :-----|
-|**keystroke**                   | string, the existing keystroke that will be removed.|
-|**domain_pattern**              | regex[optional], a Javascript regex pattern to identify the domains that this settings works.|
-
-### remove all keystroke mappings
-
-    unmapAllExcept(keystrokes, [domain_pattern])
-
-| parameter  | explanation |
-|:---------------| :-----|
-|**keystrokes**                  | array of string, the existing keystrokes that will be removed.|
-|**domain_pattern**              | regex[optional], a Javascript regex pattern to identify the domains that this settings works.|
-
-Example,
-
-    unmapAllExcept(['f', '/', '?']);
-
-### Add search alias to omnibar
-
-    addSearchAlias(alias, prompt, search_url, suggestion_url, callback_to_parse_suggestion);
-
-| parameter  | explanation |
-|:---------------| :-----|
-|**alias**                                   | one or several chars, used as search alias. When you input the string and press `space` in omnibar, it will switch to the related search engine.|
-|**prompt**                                  | a string to tell you which search engine will be used for following search|
-|**search_url**                              | the URL for the search engine|
-|**suggestion_url[optional]**                | omnibar will list out search suggestions from the engine, if you provide suggestion_url and callback_to_parse_suggestion|
-|**callback_to_parse_suggestion[optional]**  | works with suggestion_url to provide search suggestion|
-
-    addSearchAliasX(alias, prompt, search_url, search_leader_key, suggestion_url, callback_to_parse_suggestion, only_this_site_key);
-
-| parameter  | explanation |
-|:---------------| :-----|
-|**search_leader_key**                                   | one or several chars, used as search leader key, in case of that you would not like to use the default key `s`.|
-|**only_this_site_key**                                  | one or several chars, used as only-this-site-key, in case of that you would not like to use the default key `o`.|
-
-This version will create a mapping to search selected text with `search_url` on pressing `search_leader_key` followed by `alias`, except that it adds search alias to omnibar as the normal version. For example, below line
-
-    addSearchAliasX('s', 'stackoverflow', 'http://stackoverflow.com/search?q=', 'o');
-
-works like
-
-    addSearchAlias('s', 'stackoverflow', 'http://stackoverflow.com/search?q=');
-    mapkey('os', 'Search Selected with stackoverflow', function() {
-        searchSelectedWith("http://stackoverflow.com/search?q=");
-    });
-    vmapkey('os', 'Search Selected with stackoverflow', function() {
-        searchSelectedWith("http://stackoverflow.com/search?q=");
-    });
-
-### remove search alias and its bindings
-
-    removeSearchAliasX(alias, search_leader_key, only_this_site_key);
-
-### Omnibar helpers
-
-    Omnibar.listWords(<array of words>)
-    Omnibar.html(<any html snippets>)
-
-### Styling
-
-To change style for link hints:
-
-    Hints.style('border: solid 3px #552a48; color:#efe1eb; background: initial; background-color: #552a48;');
-
-To Change style for text hints:
-
-    Hints.style("border: solid 8px #C38A22;padding: 1px;background: #e39913", "text");
-
-Change the style of the search marks and cursor:
-
-    Visual.style('marks', 'background-color: #89a1e2;');
-    Visual.style('cursor', 'background-color: #9065b7;');
-
-### Create mapping in vim editor
-
-    aceVimMap(lhs, rhs, ctx)
-
-For example,
-
-    aceVimMap('jk', '<Esc>', 'insert');
-
 ### Properties list
 
 | key | default value | explanation |
 |:---------------|:-----|:-----|
-| Hints.characters | "asdfgqwertzxcvb" | The characters for generating hints. |
-| Hints.numericHints | false | Whether to use digit as hint label, if it is on, you could type text to filter links. |
-| Hints.scrollKeys | "0jkhlG$" | The keys that can be used to scroll page in hints mode. You need not change it unless that you have changed `Hints.characters`. |
 | settings.showModeStatus | false | Whether always to show mode status. |
 | settings.showProxyInStatusBar | false | Whether to show proxy info in status bar. |
 | settings.richHintsForKeystroke | 500 | Timeout(ms) to show rich hints for keystroke, 0 will disable rich hints. |
 | settings.useLocalMarkdownAPI |  true | Whether to use [chjj/marked](https://github.com/chjj/marked) to parse markdown, otherwise use github markdown API. |
 | settings.focusOnSaved | true | Whether to focus text input after quitting from vim editor. |
 | settings.omnibarMaxResults | 10 | How many results will be listed out each page for Omnibar. |
+| settings.omnibarHistoryCacheSize | 100 | The maximum of items fetched from browser history. |
 | settings.omnibarPosition | "middle" | Where to position Omnibar. ["middle", "bottom"] |
 | settings.omnibarSuggestion | false | Show suggestion URLs|
 | settings.omnibarSuggestionTimeout | 200 | Timeout duration before Omnibar suggestion URLs are queried, in milliseconds. Helps prevent unnecessary HTTP requests and API rate-limiting. |
@@ -675,7 +541,7 @@ For example,
 | settings.hintExplicit | false | Whether to wait for explicit input when there is only a single hint available |
 | settings.hintShiftNonActive | false | Whether new tab is active after entering hint while holding shift |
 | settings.defaultSearchEngine | "g" | The default search engine used in Omnibar. |
-| settings.blacklistPattern | undefined | A regex to match the sites that will have Surfingkeys disabled. |
+| settings.blocklistPattern | undefined | A regex to match the sites that will have Surfingkeys disabled. |
 | settings.focusAfterClosed | "right" | Which tab will be focused after the current tab is closed. ["left", "right", "last"] |
 | settings.repeatThreshold | 99 | The maximum of actions to be repeated. |
 | settings.tabsMRUOrder | true | Whether to list opened tabs in order of most recently used beneath Omnibar. |
@@ -731,7 +597,7 @@ For example,
 ## Donate
 Support me with [paypal](https://www.paypal.me/brookhong), or
 
-![donation](https://raw.githubusercontent.com/brookhong/Surfingkeys/master/pages/donation.png)
+![donation](https://raw.githubusercontent.com/brookhong/Surfingkeys/master/src/pages/donation.png)
 
 ## License
 
